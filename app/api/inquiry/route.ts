@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import db from "@/lib/db";
 import { Resend } from "resend";
 
 export async function POST(req: Request) {
@@ -11,28 +11,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    db.prepare(`
+      INSERT INTO inquiries (name, company, email, phone, project_type, timeline, description)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      name,
+      company || null,
+      email,
+      phone || null,
+      project_type || null,
+      timeline || null,
+      description
     );
 
-    const { error: dbError } = await supabase.from("inquiries").insert({
-      name,
-      company: company || null,
-      email,
-      phone: phone || null,
-      project_type: project_type || null,
-      timeline: timeline || null,
-      description,
-    });
-
-    if (dbError) {
-      console.error("Supabase error:", dbError);
-      return NextResponse.json({ error: "Failed to save inquiry" }, { status: 500 });
-    }
-
     const resend = new Resend(process.env.RESEND_API_KEY);
-
     await resend.emails.send({
       from: "Portfolio Inquiry <onboarding@resend.dev>",
       to: process.env.NOTIFICATION_EMAIL ?? "hafizhp@icloud.com",
@@ -51,14 +43,14 @@ export async function POST(req: Request) {
             <tr><td style="padding:6px 0; color:#64748b;">Timeline</td><td style="padding:6px 0;">${timeline || "—"}</td></tr>
           </table>
           <h3 style="margin-top: 20px; color: #334155;">Project Requirements</h3>
-          <p style="background: #f8fafc; padding: 16px; border-left: 3px solid #0891b2; margin: 0; white-space: pre-wrap;">${description}</p>
+          <p style="background:#f8fafc; padding:16px; border-left:3px solid #0891b2; margin:0; white-space:pre-wrap;">${description}</p>
         </div>
       `,
     });
 
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error("Inquiry submission error:", err);
+    console.error("Inquiry error:", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

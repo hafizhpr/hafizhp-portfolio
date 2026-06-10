@@ -14,13 +14,13 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: "apphub-pipeline",
-    title: "AppHub Pipeline",
-    client: "Internal Platform",
+    title: "Danfoss AppHub Pipeline",
+    client: "PT. Danfoss Indonesia — Internal",
     shortDesc:
-      "Web-based automation pipeline and data hub built to streamline project management and monitoring workflows.",
+      "Industrial data pipeline for Danfoss AppHub (Azure PaaS): PLC → MQTT → QuestDB → Grafana for real-time plant monitoring.",
     fullDesc:
-      "AppHub Pipeline is a full-stack internal platform designed to centralise project data flows, automate repetitive reporting tasks, and provide a unified dashboard for monitoring automation project statuses. Built collaboratively as an operational productivity tool.",
-    tags: ["Next.js", "Dashboard", "Data Pipeline", "Internal Tool"],
+      "End-to-end industrial data pipeline built for the Danfoss AppHub platform on Azure. Python scripts collect Modbus TCP data from PLCs and publish to an MQTT broker. A subscriber ingests the stream into QuestDB (time-series database via InfluxDB line protocol), which feeds live Grafana dashboards. The full stack — broker, QuestDB, and Grafana — is containerised with Docker Compose, enabling consistent local development and easy deployment.",
+    tags: ["Python", "MQTT", "QuestDB", "Grafana", "Modbus TCP", "Docker", "Azure"],
     status: "live",
     url: undefined,
   },
