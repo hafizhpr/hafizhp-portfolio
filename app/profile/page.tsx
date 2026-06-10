@@ -4,6 +4,7 @@ import About from "@/components/sections/About";
 import Experience from "@/components/sections/Experience";
 import Skills from "@/components/sections/Skills";
 import Education from "@/components/sections/Education";
+import FieldWork from "@/components/sections/FieldWork";
 import Contact from "@/components/sections/Contact";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function Profile() {
         <Experience />
         <Skills />
         <Education />
+        <FieldWork />
         <Contact />
       </div>
       <footer className="border-t border-slate-800 py-6 px-6 text-center">
