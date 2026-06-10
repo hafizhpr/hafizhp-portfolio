@@ -1,23 +1,20 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/sections/Hero";
-import About from "@/components/sections/About";
-import Experience from "@/components/sections/Experience";
-import Projects from "@/components/sections/Projects";
-import Skills from "@/components/sections/Skills";
-import Education from "@/components/sections/Education";
-import Contact from "@/components/sections/Contact";
+import FeaturedProjects from "@/components/sections/FeaturedProjects";
+import InquiryForm from "@/components/sections/InquiryForm";
 
 export default function Home() {
   return (
     <main>
       <Navbar />
       <Hero />
-      <About />
-      <Experience />
-      <Projects />
-      <Skills />
-      <Education />
-      <Contact />
+      <FeaturedProjects />
+      <InquiryForm />
+      <footer className="border-t border-slate-800 py-6 px-6 text-center">
+        <p className="text-slate-700 text-xs font-mono">
+          © 2026 Hafiz Hardiansyah Pratama · Built with Next.js &amp; Tailwind CSS
+        </p>
+      </footer>
     </main>
   );
 }

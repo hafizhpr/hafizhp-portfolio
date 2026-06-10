@@ -1,18 +1,28 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
-const links = [
+const homeLinks = [
+  { label: "Projects", href: "#projects" },
+  { label: "Start a Project", href: "#inquiry" },
+  { label: "Full Profile", href: "/profile" },
+];
+
+const profileLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  const links = isHome ? homeLinks : profileLinks;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -29,18 +39,28 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="font-mono text-cyan-400 font-semibold tracking-widest text-lg">
+        <Link href="/" className="font-mono text-cyan-400 font-semibold tracking-widest text-lg">
           HHP
-        </a>
+        </Link>
+
         <ul className="hidden md:flex items-center gap-8">
           {links.map((l) => (
             <li key={l.href}>
-              <a
-                href={l.href}
-                className="text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium"
-              >
-                {l.label}
-              </a>
+              {l.href.startsWith("/") ? (
+                <Link
+                  href={l.href}
+                  className="text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium"
+                >
+                  {l.label}
+                </Link>
+              ) : (
+                <a
+                  href={l.href}
+                  className="text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium"
+                >
+                  {l.label}
+                </a>
+              )}
             </li>
           ))}
           <li>
@@ -54,6 +74,7 @@ export default function Navbar() {
             </a>
           </li>
         </ul>
+
         <button
           className="md:hidden text-slate-400 hover:text-cyan-400 transition-colors"
           onClick={() => setOpen(!open)}
@@ -68,13 +89,23 @@ export default function Navbar() {
           <ul className="flex flex-col gap-4 pt-3">
             {links.map((l) => (
               <li key={l.href}>
-                <a
-                  href={l.href}
-                  className="text-slate-400 hover:text-cyan-400 transition-colors text-sm"
-                  onClick={() => setOpen(false)}
-                >
-                  {l.label}
-                </a>
+                {l.href.startsWith("/") ? (
+                  <Link
+                    href={l.href}
+                    className="text-slate-400 hover:text-cyan-400 transition-colors text-sm"
+                    onClick={() => setOpen(false)}
+                  >
+                    {l.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={l.href}
+                    className="text-slate-400 hover:text-cyan-400 transition-colors text-sm"
+                    onClick={() => setOpen(false)}
+                  >
+                    {l.label}
+                  </a>
+                )}
               </li>
             ))}
             <li>

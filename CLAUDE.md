@@ -34,17 +34,45 @@ npm run lint      # Run ESLint
 
 ## Architecture
 
-Single-page portfolio with section-based layout using Next.js App Router (`app/` directory). Purely static — no API routes or backend.
+Two-page portfolio + project detail sub-pages using Next.js 14 App Router.
 
-Key directories:
-- `app/` — root layout (`layout.tsx`), main page (`page.tsx`), global CSS (`globals.css`)
-- `components/Navbar.tsx` — sticky nav with scroll-aware blur background (`"use client"`)
-- `components/sections/` — Hero, About, Experience, Projects, Skills, Education, Contact (all Server Components)
-- `public/` — `2026-Hafiz-Resume.pdf` served for the CV download button
+**Routes:**
+- `/` — Overview: Hero + FeaturedProjects grid + InquiryForm (with backend)
+- `/profile` — Full profile: About, Experience, Skills, Education, Contact info
+- `/projects/[slug]` — Individual project detail pages (statically generated from `lib/projects.ts`)
+- `/api/inquiry` — POST endpoint: saves to Supabase + sends email via Resend
+
+**Key files:**
+- `lib/projects.ts` — single source of truth for all project data; add projects here
+- `app/api/inquiry/route.ts` — inquiry handler (Supabase + Resend)
+- `components/sections/InquiryForm.tsx` — `"use client"` form component
+- `components/sections/FeaturedProjects.tsx` — project grid with Live/On Development badges
+- `components/Navbar.tsx` — `"use client"`, switches nav links based on `usePathname()`
 
 **Config note**: Use `next.config.mjs`, not `next.config.ts` — Next.js 14 does not support the `.ts` config extension.
 
 **Custom Tailwind colors** (in `tailwind.config.ts`): `background` (#0B1120), `surface` (#0f172a), `card` (#1e293b). Everything else uses Tailwind's built-in slate/cyan/amber palette directly.
+
+## Backend Setup (Supabase + Resend)
+
+Copy `.env.local.example` → `.env.local` and fill in credentials.
+
+**Supabase table** — run this SQL in the Supabase dashboard:
+```sql
+CREATE TABLE inquiries (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  company TEXT,
+  email TEXT NOT NULL,
+  phone TEXT,
+  project_type TEXT,
+  timeline TEXT,
+  description TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+**Resend**: update the `from` field in `app/api/inquiry/route.ts` with a verified domain once set up (currently uses `onboarding@resend.dev` for dev/testing).
 
 ## Content Reference
 

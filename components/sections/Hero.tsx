@@ -1,11 +1,10 @@
-import { ArrowDown, Download, Mail } from "lucide-react";
+import Link from "next/link";
+import { ArrowDown, Download, User } from "lucide-react";
 
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center dot-grid overflow-hidden bg-background">
-      {/* Subtle top-to-bottom fade */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background pointer-events-none" />
-      {/* Cyan radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(34,211,238,0.07)_0%,_transparent_65%)] pointer-events-none" />
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
@@ -31,12 +30,18 @@ export default function Hero() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href="#contact"
+            href="#inquiry"
             className="flex items-center gap-2 bg-cyan-400 text-background px-7 py-3 font-semibold hover:bg-cyan-300 transition-colors"
           >
-            <Mail size={18} />
-            Get in Touch
+            Start a Project
           </a>
+          <Link
+            href="/profile"
+            className="flex items-center gap-2 border border-slate-600 text-slate-300 px-7 py-3 font-semibold hover:border-cyan-400/50 hover:text-slate-100 transition-colors"
+          >
+            <User size={18} />
+            Full Profile
+          </Link>
           <a
             href="/2026-Hafiz-Resume.pdf"
             target="_blank"
@@ -44,12 +49,12 @@ export default function Hero() {
             className="flex items-center gap-2 border border-cyan-400 text-cyan-400 px-7 py-3 font-semibold hover:bg-cyan-400/10 transition-colors"
           >
             <Download size={18} />
-            Download CV
+            Resume
           </a>
         </div>
 
         <div className="mt-16 animate-bounce">
-          <a href="#about" aria-label="Scroll to about">
+          <a href="#projects" aria-label="Scroll to projects">
             <ArrowDown size={22} className="text-slate-600 mx-auto" />
           </a>
         </div>
