@@ -16,12 +16,17 @@ Personal portfolio and landing page for **Hafiz Hardiansyah Pratama**, an Automa
 
 ## Deployment — VPS
 
-<!-- TODO: Hafiz to fill in VPS details -->
-- **Host/IP**: _TBD_
-- **Provider**: _TBD_
-- **SSH port**: _TBD_
-- **Deploy method**: _TBD_ (e.g. PM2 + Nginx, Docker, etc.)
-- **Domain**: _TBD_
+- **Provider**: IDCloudHost
+- **IP**: 103.23.198.50
+- **SSH**: `ssh hafiz@103.23.198.50`
+- **OS**: Ubuntu 24.04 LTS
+- **Domain**: hafizhp.my.id (SSL via Let's Encrypt / Certbot)
+- **Deploy method**: Docker Compose + Nginx reverse proxy
+- **Project path on VPS**: `/var/www/hafizhp-portfolio`
+- **Container**: `hafizhp-portfolio` on port 3000
+- **SQLite DB**: `/var/www/hafizhp-portfolio/data/inquiries.db`
+
+Auto-deploy via GitHub Actions (`.github/workflows/deploy.yml`) — push to `main` → SSH → `docker compose up -d --build`. Requires GitHub Secrets: `VPS_HOST`, `VPS_SSH_KEY`.
 
 ## Development Commands
 
